@@ -1,39 +1,61 @@
 English–Vietnamese Neural Machine Translation
 
 Overview
-
-This project implements a neural machine translation (NMT) system for English–Vietnamese translation using a transformer-based model.
+This project implements a neural machine translation (NMT) system for English–Vietnamese translation using a transformer-based architecture. The model is based on a pre-trained sequence-to-sequence transformer and fine-tuned for improved translation performance.
 
 Model
-
-* Pretrained model: Helsinki-NLP/opus-mt-en-vi (MarianMT)
-* Fine-tuned on a subset of the OPUS dataset
+Pretrained model: Helsinki-NLP/opus-mt-en-vi (MarianMT)
+Architecture: Transformer-based Seq2Seq model
+Fine-tuned on a subset of English–Vietnamese parallel corpus
 
 Dataset
+Source: HuggingFace Datasets – OPUS-100 English–Vietnamese subset
+Dataset name: Helsinki-NLP/opus-100 (en-vi)
+Corpus origin: OPUS (Open Parallel Corpus)
+Type: Parallel text dataset (English ↔ Vietnamese sentence pairs)
 
-* Source: OPUS corpus (English–Vietnamese)
-* Size: 1,000 sentence pairs
-* Split: 80% train, 10% validation, 10% test
+Data Processing
+Training subset: 1,000 sentence pairs (for fast experimentation)
+Evaluation subset: 200 validation samples
+Full dataset contains much larger parallel corpora from OPUS
+Data Access Instructions
+
+The dataset is automatically loaded using the HuggingFace datasets library:
+
+from datasets import load_dataset
+raw_datasets = load_dataset("Helsinki-NLP/opus-100", "en-vi")
+
+No manual download is required. Internet access is needed when running the code for the first time.
 
 Implementation
-
-* Framework: HuggingFace Transformers
-* Backend: PyTorch
-* Environment: Google Colab (GPU)
+Framework: HuggingFace Transformers
+Backend: PyTorch
+Environment: Google Colab (GPU recommended)
+Tokenizer: AutoTokenizer from MarianMT model
+Evaluation metric: SacreBLEU
 
 Results
+BLEU score: 23.90
+Validation loss improved from 1.758 → 1.732
+Model shows reasonable performance on literal sentences, but struggles with idioms and figurative language.
+Error Analysis (Qualitative)
 
-* BLEU score: 23.90
-* Validation loss decreased from 1.758 → 1.732
+The model performs well on standard sentences but has limitations with:
+
+Idioms (e.g., “raining cats and dogs”)
+Slang expressions (e.g., “kick the bucket”)
+Metaphorical language
 
 How to Run
+Open the project in Google Colab
 
-1. Open the project in Google Colab
-2. Install required libraries:
-   pip install transformers datasets sacrebleu
-3. Run all cells to train and evaluate the model
+Install dependencies:
+
+pip install transformers datasets sacrebleu torch
+Run all cells sequentially
+Model will automatically train and evaluate
 
 Notes
-
-* Full implementation code is provided in Appendix A of the report.
-* This project focuses on both quantitative evaluation and linguistic error analysis.
+This project uses a subset of the dataset for demonstration purposes
+Full dataset training is recommended for production-level performance
+Implementation includes both quantitative evaluation (BLEU) and qualitative error analysis
